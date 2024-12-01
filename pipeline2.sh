@@ -3,7 +3,7 @@
 set -e
 
 help() {
-echo "usage: ./pipeline.sh [-p [ppinfile]] [-r [reffile]] [-o [outputdir]] [-f [filter]] [-h]
+echo "usage: ./pipeline2.sh [-p [ppinfile]] [-r [reffile]] [-o [outputdir]] [-f [filter]] [-h]
     
 Runs P5COMP on the given PPIN file (ppinfile) and evaluates against the given gold standard (reffile).
 Final predicted clusters will be written in outputdir.
@@ -130,4 +130,16 @@ case "$method" in
         python code/remove_duplicates.py $postprocessed
         python code/eval2.py $postprocessed $reffile $resfile auc_pts.csv --attribs $attribs
    ;;
+   "MCL")
+        echo "IND 4: Running MCL..."
+        predictsfile="${outputdir}/MCL_predicted.txt"
+        postprocessed="${outputdir}/MCL_postprocessed.txt"
+        echo "<$ppinfile> <$predictsfile>"
+        mcl $ppinfile --abc -I 3.0 -o $predictsfile
+        python code/ClusterOne/cluster_one_scoring.py $ppinfile $predictsfile $postprocessed
+        python code/eval2.py $postprocessed $reffile $resfile "auc_pts.csv" --attribs $attribs
 esac
+
+# Clean-up (band-aid for outputdir bug)
+rm "data/Interm" -r
+# rm $outputdir -r # deletes all predictions

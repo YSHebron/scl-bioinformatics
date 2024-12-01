@@ -1,22 +1,22 @@
 # scl-bioinfo
 
-A proteomics project that aims to **augment, extend, and integrate** parameter-free protein complex prediction methods to improve their performance on various protein interaction networks.[^1] See paper at [...].
+Objective: **Augment, extend, and integrate** parameter-free protein complex prediction methods to improve their performance on various protein interaction networks.[^1]
 
-[^1]: By "parameter-free", we are referring to the lack of tunable hyperparameters (comparable to inflation and expansion coefficients for Markov Clustering, etc.) for the component clustering algorithms. Parameters such as input files and match score thresholds are still available for ease of use and experimentation.
+[^1]: By "parameter-free", we refer to an empty set of tunable hyperparameters (recall inflation and expansion coefficients for Markov Clustering, etc.) for the component clustering algorithms. Parameters such as input files and match score thresholds are still available for ease of use and experimentation.
 
 * Augment - add necessary pre- and post-processing steps to clustering algorithms.
-* Extend - modify clustering algorithm itself as needed, possibly reducing time complexity.
+* Extend - modify clustering algorithm itself as needed, possibly reducing complexity.
 * Integrate - perform ensemble clustering on multiple clustering algorithms.
 
 We hypothesize that parameter-free and purely topological clustering algorithms can contend with parameter-laden clustering algorithms on various areas, especially in adapting to noisy PPINs and predicting overlapping complexes. General focus is on improving recall with minimal loss of precision, and minimizing or eliminating the need for additional biological information to boost performance.
 
-The current output is a prediction pipeline named **P5COMP** that contains 3 component clustering algorithms, namely P5COMP [[1]](#1), CUBCO+ [[2]](#2), and ClusterOne [[3]](#3). **P5COMP** stands for "Parameter-free Pipeline for Predicting Problematic Complexes". P5COMP's contributions and improvements will be based on performance metrics such as F-scores and AUC-PR with emphasis on the biological significance of results. Benchmarked algorithms will include the unmodified component algorithms when ran independently and classical protein complex prediction methods.
+The current output is a prediction pipeline named **P5COMP** that contains 3 component clustering algorithms, namely P5COMP [[1]](#1), CUBCO+ [[2]](#2), and ClusterOne [[3]](#3). **P5COMP** stands for "Parameter-free Pipeline for Predicting Problematic Complexes". P5COMP's contributions and improvements will be based on performance metrics such as F-score and AUC-PR with emphasis on the biological significance of results. Benchmarked algorithms will include the unmodified component algorithms when ran independently and classical protein complex prediction methods.
 
 ## Requirements
 
 **Important**: All commands that will be provided in this documentation must be run from the repository root.
 
-This software is written in Python 3.11 but may be compatible with other versions. This requires various packages, for which a Conda environment `scl` is provided for easy setup.
+This software is written in Python 3.11 and requires various packages, for which a Conda environment `scl` is provided for easy setup.
 
 To set up the `scl` environment using the bundled `environment.yml` file, do:
 
@@ -70,7 +70,7 @@ Now follows is a sample command to run `pipeline1.sh` with the Collins PPIN and 
 
 If needed, save the Results of an important run to a different directory to avoid them getting overwritten when the pipeline is rerun.
 
-Note that `pipeline2.sh` is used for evaluating PC2P, CUBCO+, and ClusterOne and has the same interface as `pipeline1.sh`.
+Note that `pipeline2.sh` is used for evaluating PC2P, CUBCO+, and ClusterOne individually and has the same interface as `pipeline1.sh`.
 
 ### Batch Evaluation
 

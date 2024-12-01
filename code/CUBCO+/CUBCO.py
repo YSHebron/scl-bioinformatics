@@ -158,7 +158,7 @@ if __name__ == '__main__':
 
     ### PreProcessing
     new_edges = list()
-    printc('Getting the complement of G ......\n')
+    printc('Getting the complement of G......')
     pool = mp.Pool(16)
     for g in nx.connected_components(G):
         # print("test")
@@ -166,7 +166,7 @@ if __name__ == '__main__':
         rescores = pool.map(ave_number_of_p3_parallelized, [(edge,G) for edge in g_cmp.edges()])
         for i, edge in enumerate(g_cmp.edges()):
             new_edges.append([edge[0], edge[1], rescores[i]])
-    print("Exiting getting complement...")
+    print("DONE")
     pool.close()
     pool.join()
 

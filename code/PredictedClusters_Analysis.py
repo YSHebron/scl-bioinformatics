@@ -172,11 +172,8 @@ def recall(reference, predicted, threshold=0.5):
                     break
     return counter / float(len(reference))
 
-
+# NOTE: Fixed recall computation and generalized this (11/22/2024)
 def F_measure(reference, predicted, F=1, threshold=0.5):
     p = precision(reference, predicted, threshold)
     r = recall(reference, predicted, threshold)
-    if (F == 1):
-        return (2 * p * r) / (p + r)
-    elif (F == 2):
-        return (4 * p * r) / (5 * p + r)
+    return (1+F**2) * (p*r) / (p*F**2 + r)

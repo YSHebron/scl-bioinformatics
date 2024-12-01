@@ -3,7 +3,7 @@
 # Disclaimer: This still contain necessary usage parameters such as paths to files and directories
 # Note that usage parameters are not clustering parameters.
 
-# Sample: .\pipeline2.ps1 -p data\Yeast\Collins\collins2007.txt -r data\Yeast\CYC_complexes.txt -o data\Results\P5COMP -n data\Negatome\negatome_2_mix_mapped.txt -f perpair
+# Sample: .\pipeline1.ps1 -p data\Yeast\Collins\collins2007.txt -r data\Yeast\CYC_complexes.txt -o data\Results\P5COMP -n data\Negatome\negatome_2_mix_mapped.txt -f perpair
 
 param(
     [string]$ppinfile,
@@ -16,9 +16,9 @@ param(
 
 function Help {
 @"
-usage: .\pipeline2.ps1 [-p [ppinfile]] [-r [reffile]] [-o [outputdir]] [-n [negfile]] [-f [filter]] [-a [attribs]] [-h]
+usage: .\pipeline1.ps1 [-p [ppinfile]] [-r [reffile]] [-o [outputdir]] [-n [negfile]] [-f [filter]] [-a [attribs]] [-h]
 
-Runs P5COMP on the given PPIN file (ppinfile) and evaluates against the given gold standard (reffile).
+Runs P5COMP on the given PPIN file (ppinfile) and evaluates predictions against the given gold standard (reffile).
 Final predicted clusters will be written in outputdir.
 Important: Protein names (PID) should be in gene name (ordered locus) or KEGG format (ex. YLR075W) to match gold standards.
 
@@ -59,8 +59,14 @@ function Validate-Directory {
 #     exit 1
 # }
 
+if ($help) {
+    Help
+    exit 0
+}
+
 if (-not $ppinfile -or -not $reffile -or -not $outputdir) {
-    Write-Error "Error: Missing -p, -r, and/or -o arguments. See help (-h)."
+    Write-Error "Error: Missing -p, -r, and/or -o arguments. See help (-h) or the msg below."
+    Help
     exit 1
 }
 

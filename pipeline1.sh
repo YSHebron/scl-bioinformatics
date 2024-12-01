@@ -5,12 +5,12 @@
 # Disclaimer: This still contain necessary usage parameters such as paths to files and directories
 # Note that usage parameters are not clustering parameters.
 
-# Sample: ./pipeline.sh -p data/Yeast/Collins/collins2007.txt -r data/Yeast/CYC_complexes.txt -o data/Results/P5COMP -n data/Negatome/negatome_2_mix_mapped.txt -f perpair
+# Sample: ./pipeline1.sh -p data/Yeast/Collins/collins2007.txt -r data/Yeast/CYC_complexes.txt -o data/Results/P5COMP -n data/Negatome/negatome_2_mix_mapped.txt -f perpair
 
 set -e
 
 help() {
-echo "usage: ./pipeline.sh [-p [ppinfile]] [-r [reffile]] [-o [outputdir]] [-n [negfile]] [-f [filter]] [-h]
+echo "usage: ./pipeline1.sh [-p [ppinfile]] [-r [reffile]] [-o [outputdir]] [-n [negfile]] [-f [filter]] [-h]
     
 Runs P5COMP on the given PPIN file (ppinfile) and evaluates against the given gold standard (reffile).
 Final predicted clusters will be written in outputdir.
@@ -164,3 +164,7 @@ python code/ensemble.py $postprocessed_ClusterOne $postprocessed_CUBCO $postproc
 
 # Evaluation (currently assumes running from root)
 python code/eval2.py $final_clusters $reffile $resfile auc_pts.csv --attribs $attribs
+
+# Clean-up (band-aid for outputdir bug)
+rm "data/Interm" -r
+# rm $outputdir -r # deletes all predictions

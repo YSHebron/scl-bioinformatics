@@ -1,9 +1,12 @@
 #!/bin/bash
+# Usage: ./metrics.sh <resultsfile> <recreate?>
+# This is usually run using the batch.sh script to generate multiple iterations of perf eval results.
 
 declare -a methods=(
-    [1]=PC2P
-    [2]=CUBCO+
-    [3]=ClusterOne
+    [0]=PC2P
+    [1]=CUBCO+
+    [2]=ClusterOne
+    [3]=MCL
 )
 
 declare -a gldstds=(
@@ -19,18 +22,19 @@ declare -a ppins=(
     [4]=BIM
 )
 
-# Results File
+# Results File (file containing the computed metrics)
 resultsfile=$1
-recreate=$2     # true or false
+recreate=$2     # true or false (recreate the results file or not, can be handled by batch.sh)
 
 if [ "$recreate" = true ]
 then
-    echo "Method,GldStd,PPIN,Predicts,Refs,Precision,Recall,F1-score,F2-score,AUC-PR,MMR,Sensitivity,PPP,Accuracy,F-Match,Separation" > $resultsfile
+    echo "Method,GldStd,PPIN,Predicts,Refs,Precision,Recall,F0.5-score,F1-score,F2-score,AUC-PR,MMR,Sensitivity,PPP,Accuracy,F-Match,Separation" > $resultsfile
 fi
 
 p=
 r=
-o="data/Results/P5COMP"
+o="data/Results/Dummy"
+
 for gldstd in "${gldstds[@]}"; do
     case "$gldstd" in
         "CYC") r=eval/CYC2008.txt
@@ -53,7 +57,7 @@ for gldstd in "${gldstds[@]}"; do
         esac
         # P5COMP
         ./pipeline1.sh -p $p -r $r -o $o \
-            -n data/Negatome/negatome_2_mix_mapped.txt -f perpair -a "P5COMP-${gldstd}-${ppin}" -R $resultsfile
+            -n eval/Negatome.txt -f perpair -a "P5COMP-${gldstd}-${ppin}" -R $resultsfile
         # PC2P, CUBCO+, and ClusterOne
         for method in "${methods[@]}"; do
             ./pipeline2.sh -p $p -r $r -o $o -f perpair -a "${method}-${gldstd}-${ppin}" -R $resultsfile

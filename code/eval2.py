@@ -197,7 +197,7 @@ if __name__ == '__main__':
             cluster = Cluster(proteins, score, lineno)
             cluster.matches = 0
             clusters.append(cluster)
-    clusters.sort(key = lambda x: x.score, reverse=True)
+    clusters.sort(key = lambda x: x.score, reverse=True)    
 
     # print(calc_prec_rec_comp_pred(clusters, refs, {}, outfile_A, quiet=True))
     
@@ -213,9 +213,10 @@ if __name__ == '__main__':
     # METRICS
     precision = pc.precision(refs_set, predicts_set, threshold=match_thresh)
     recall = pc.recall(refs_set, predicts_set, threshold=match_thresh)
+    f05 = pc.F_measure(refs_set, predicts_set, F=0.5, threshold=match_thresh)   # new
     f1 = pc.F_measure(refs_set, predicts_set, F=1, threshold=match_thresh)
     f2 = pc.F_measure(refs_set, predicts_set, F=2, threshold=match_thresh)
-    auc = calc_prec_rec_comp_pred(clusters, refs, {}, outfile_A, quiet=True, matchscore_thr=match_thresh) # also prints auc_points
+    auc = calc_prec_rec_comp_pred(clusters, refs, {}, outfile_A, quiet=False, matchscore_thr=match_thresh) # also prints auc_points
     mmr = pc.maximum_matching_ratio(refs_set, predicts_set)
     sensitivity = pc.clusteringwise_sensitivity(refs_set, predicts_set)
     ppp = pc.positive_predictive_value(refs_set, predicts_set)
@@ -225,7 +226,7 @@ if __name__ == '__main__':
     
     # Collect Results and Append to results.csv Masterfile
     results = [method, gldstd, ppin, num_predicts, num_refs,
-                       precision, recall, f1, f2, auc,
+                       precision, recall, f05, f1, f2, auc,
                        mmr, sensitivity, ppp, accuracy, f_match, separation]
     df.loc[len(df)] = results
     

@@ -101,7 +101,7 @@ if __name__ == '__main__':
     
     # Filtering Directives
     if args.negfile is not None:
-        ppin = filter_with_negatome(ppin, utils.read_ppin_to_dict(args.negfile))
+        ppin = filter_with_negatome(ppin, utils.read_ppin_to_dict(args.negfile))    # BUG: There exists an issue here for some perf-eval cases
         print(f"Negatome 2.0\t\t{len(ppin)}")
         
     if args.filtering == "perpair":

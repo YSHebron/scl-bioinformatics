@@ -23,6 +23,7 @@ def get_score(complex, edgesref):
            key = (id_a, id_b) if id_a < id_b else (id_b, id_a)
            if key in edgesref:
                totalweight += edgesref[key]
+    if len(complex) == 1: return 0  # Added safeguard for single-protein "clusters"
     score = totalweight*2 / ((len(complex) * (len(complex)-1)))
     return score
 

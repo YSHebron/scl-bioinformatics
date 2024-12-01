@@ -7,3 +7,7 @@ class Cluster:
     
     def __str__(self):
         return "(%d_%.6f): %s" % (len(self.proteins), self.score, " ".join(self.proteins))
+    
+    def str2(self):
+        # For use with analysis.ipynb converter
+        return f"{' '.join(self.proteins)}"

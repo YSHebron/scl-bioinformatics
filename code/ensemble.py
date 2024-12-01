@@ -160,21 +160,18 @@ if __name__ == '__main__':
     combined_clusters = c1_clusters + cubco_clusters + pc2p_clusters
     printc("Total number of clusters:\t%d" %len(combined_clusters))
     # NOTE: Found out the best configuration is a simple concatenation of all the results
-    # final_clusters = ensemble_clustering(c1_clusters, cubco_clusters, pc2p_clusters, match_thresh)
-    # printc("Number of possible clusters:\t%d" %len(final_clusters))
-    # final_clusters += ensemble_clustering(cubco_clusters, pc2p_clusters, c1_clusters, match_thresh)
-    # printc("Number of possible clusters:\t%d" %len(final_clusters))
-    # final_clusters += ensemble_clustering(pc2p_clusters, c1_clusters, cubco_clusters, match_thresh)
-    # printc("Number of possible clusters:\t%d" %len(final_clusters))
-    # final_clusters = remove_duplicate_clusters_id(final_clusters)
-    # final_clusters = remove_low_reliability_clusters(combined_clusters)
-    # print("P5COMP clusters:\t", len(final_clusters))
+    # For large commit, returned this capability with proper bug fix on results contamination
+    final_clusters = ensemble_clustering(c1_clusters, cubco_clusters, pc2p_clusters, match_thresh)
+    printc("Number of possible clusters:\t%d" %len(final_clusters))
+    final_clusters += ensemble_clustering(cubco_clusters, pc2p_clusters, c1_clusters, match_thresh)
+    printc("Number of possible clusters:\t%d" %len(final_clusters))
+    final_clusters += ensemble_clustering(pc2p_clusters, c1_clusters, cubco_clusters, match_thresh)
+    printc("Number of possible clusters:\t%d" %len(final_clusters))
+    final_clusters = remove_duplicate_clusters_id(final_clusters)
+    final_clusters = remove_low_reliability_clusters(combined_clusters)
+    print("P5COMP clusters:\t", len(final_clusters))
 
     # Output results
-    with outfile.open('w+') as f:
+    with outfile.open('w') as f:
         for cluster in combined_clusters:
             f.write(str(cluster) + "\n")
-
-    
-
-

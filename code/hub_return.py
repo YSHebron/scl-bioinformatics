@@ -74,9 +74,15 @@ if __name__ == '__main__':
         if C.score == 0:
             predicts.remove(C)
                 
-    # Writing postprocessed clusters (with hubs)
+    # Writing postprocessed clusters (with hubs) (with scores)
     args.outfile.parent.mkdir(exist_ok=True, parents=True)
     with open(args.outfile, 'w') as f:
         for C in predicts:
             f.write(str(C))
+            f.write("\n")
+    
+    # Writing postprocessed clusters (with hubs) (WITHOUT scores)
+    with open('temp_P5COMP_output.txt', 'w+') as f:
+        for C in predicts:
+            f.write(C.str2())
             f.write("\n")
